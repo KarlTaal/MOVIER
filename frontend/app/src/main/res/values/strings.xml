@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MovierProject</string>
+    <string name="api_key"></string>
+    <string name="its_a_match">It\'s a match!</string>
+    <string name="back_to_start_menu">Back to start menu</string>
+    <string name="yep">Yep</string>
+    <string name="nope">Nope</string>
+    <string name="or">OR</string>
+    <string name="start_new_session">START NEW SESSION</string>
+    <string name="join_session">JOIN SESSION</string>
+    <string name="session_key">Session Key</string>
+    <string name="movier">MOVIER</string>
+    <string name="help">Help</string>
+    <string name="settings">Settings</string>
+</resources>
