@@ -17,14 +17,41 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     lateinit var preferences: SharedPreferences
+    var lastTheme = -10000 //inital value, -10000 means unset
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preferences =
-            getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE)
+        preferences = getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE)
+        updateTheme() //has to be called between onCreate and setContent
         setContentView(R.layout.settings)
         setupThemeSwitch()
         languageUpdate()
+    }
+
+    fun updateTheme() {
+        val prefTheme = preferences.getString("theme", "light")
+        if (lastTheme == -10000) { //when update is called from onCreate
+            if (prefTheme == "light") {
+                setTheme(R.style.AppThemeLight)
+                lastTheme = R.style.AppThemeLight
+            }
+            if (prefTheme == "dark") {
+                setTheme(R.style.AppThemeDark)
+                lastTheme = R.style.AppThemeDark
+            }
+        } else{ //we need to call recreate but only when needed because otherwise it will go in infinite loop
+            if (prefTheme == "light" && lastTheme != R.style.AppThemeLight) {
+                setTheme(R.style.AppThemeLight)
+                lastTheme = R.style.AppThemeLight
+                this.recreate()
+            }
+            if (prefTheme == "dark" && lastTheme != R.style.AppThemeDark) {
+                setTheme(R.style.AppThemeDark)
+                lastTheme = R.style.AppThemeDark
+                this.recreate()
+            }
+        }
     }
 
 
@@ -40,6 +67,7 @@ class SettingsActivity : AppCompatActivity() {
                 else
                     editor.putString("theme", "light")
                 editor.commit()
+                updateTheme()
                 //Toast.makeText(this, theme_switch.isChecked.toString(), Toast.LENGTH_SHORT).show()
             }
         }

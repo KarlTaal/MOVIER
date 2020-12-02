@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
     android:textAlignment="center">
 
     <androidx.constraintlayout.widget.Guideline
@@ -54,7 +52,6 @@
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="24dp"
-        android:background="@color/buttonColor"
         android:text="@string/english_start_new_session"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +64,6 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="100dp"
-        android:background="@color/buttonColor"
         android:text="@string/english_join_session"
         app:layout_constraintBottom_toTopOf="@+id/session_key_input"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +78,6 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="100dp"
         android:autofillHints=""
-        android:backgroundTint="@color/inputUnderLineColor"
         android:ems="10"
         android:gravity="center"
         android:hint="@string/english_session_key"
@@ -108,7 +103,6 @@
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="28dp"
-        android:background="@color/spinnerBackground"
         app:layout_constraintBottom_toTopOf="@+id/start_session_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -117,7 +111,6 @@
             android:id="@+id/genre_select"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/spinnerArrowColor"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -129,7 +122,6 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"

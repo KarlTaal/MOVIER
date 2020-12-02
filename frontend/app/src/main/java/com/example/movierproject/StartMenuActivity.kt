@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.koushikdutta.ion.Ion
 import kotlinx.android.synthetic.main.start_menu.*
 import java.util.*
+import kotlin.properties.Delegates
 
 
 class StartMenuActivity : AppCompatActivity() {
@@ -26,21 +27,51 @@ class StartMenuActivity : AppCompatActivity() {
     lateinit var preferences: SharedPreferences
 
     var genreQueryLanguage: String = "en-US"
+    var lastTheme = -10000 //inital value, -10000 means unset
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preferences = getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE)
+        preferences =
+            getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE)
+        preferencesSetupOnFirstRun()
+
+        updateTheme() //has to be called between onCreate and setContent
         setContentView(R.layout.start_menu)
 
-        preferencesSetupOnFirstRun()
         setupButtons()
         setupGenreSelector()
         setSupportActionBar(findViewById(R.id.toolbar))
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         updateLanguage()
     }
 
-    fun updateLanguage(){
+    fun updateTheme() {
+        val prefTheme = preferences.getString("theme", "light")
+        if (lastTheme == -10000) { //when update is called from onCreate
+            if (prefTheme == "light") {
+                setTheme(R.style.AppThemeLight)
+                lastTheme = R.style.AppThemeLight
+            }
+            if (prefTheme == "dark") {
+                setTheme(R.style.AppThemeDark)
+                lastTheme = R.style.AppThemeDark
+            }
+        } else{ //we need to call recreate but only when needed because otherwise it will go in infinite loop
+            if (prefTheme == "light" && lastTheme != R.style.AppThemeLight) {
+                setTheme(R.style.AppThemeLight)
+                lastTheme = R.style.AppThemeLight
+                this.recreate()
+            }
+            if (prefTheme == "dark" && lastTheme != R.style.AppThemeDark) {
+                setTheme(R.style.AppThemeDark)
+                lastTheme = R.style.AppThemeDark
+                this.recreate()
+            }
+        }
+    }
+
+    fun updateLanguage() {
         //genre selections
         val prefLang = preferences.getString("language", "english")
         if (prefLang == "english")
@@ -50,14 +81,14 @@ class StartMenuActivity : AppCompatActivity() {
         setupGenreSelector()
 
         //labels
-        if (prefLang == "english"){
+        if (prefLang == "english") {
             main_menu_header.text = getString(R.string.english_movier)
             start_session_btn.text = getString(R.string.english_start_new_session)
             main_menu_or.text = getString(R.string.english_or)
             join_session_btn.text = getString(R.string.english_join_session)
             session_key_input.hint = getString(R.string.english_session_key)
         }
-        if (prefLang == "russian"){
+        if (prefLang == "russian") {
             main_menu_header.text = getString(R.string.russian_movier)
             start_session_btn.text = getString(R.string.russian_start_new_session)
             main_menu_or.text = getString(R.string.russian_or)
@@ -70,15 +101,16 @@ class StartMenuActivity : AppCompatActivity() {
     override fun onResume() { //we have to update in onResume, because onCreate is not called when we hit back button
         super.onResume()
         updateLanguage()
+        updateTheme()
     }
 
-    fun preferencesSetupOnFirstRun(){
+    fun preferencesSetupOnFirstRun() {
         val editor: SharedPreferences.Editor = preferences.edit()
-        if (!preferences.contains("theme")){
+        if (!preferences.contains("theme")) {
             //Toast.makeText(this, "theme setup", Toast.LENGTH_SHORT).show()
             editor.putString("theme", "light")
         }
-        if (!preferences.contains("language")){
+        if (!preferences.contains("language")) {
             //Toast.makeText(this, "language setup", Toast.LENGTH_SHORT).show()
             editor.putString("language", "english")
         }
@@ -91,8 +123,8 @@ class StartMenuActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
-            R.id.option_help ->{
+        return when (item.itemId) {
+            R.id.option_help -> {
                 val intent = Intent(this, HelpActivity::class.java)
                 startActivity(intent)
                 true
@@ -145,7 +177,7 @@ class StartMenuActivity : AppCompatActivity() {
                 val genreArray = mutableListOf<String>()
                 genres.forEach { genre ->
                     val name = genre.asJsonObject["name"].toString()
-                    genreArray.add(name.substring(1, name.length-1))
+                    genreArray.add(name.substring(1, name.length - 1))
                 }
                 val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, genreArray)
                 aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -153,7 +185,7 @@ class StartMenuActivity : AppCompatActivity() {
             }
     }
 
-    fun switchToMovieSelectingActivity(){
+    fun switchToMovieSelectingActivity() {
         val intent = Intent(this, MovieSelectingActivity::class.java)
         startActivity(intent)
     }

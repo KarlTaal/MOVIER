@@ -1,9 +1,9 @@
 <resources>
     <string name="api_key"></string>
     <string name="preferences_file">preferences</string>
+    <string name="app_name">MovierProject</string>
 
     <!-- english -->
-    <string name="english_app_name">MovierProject</string>
     <string name="english_its_a_match">It\'s a match!</string>
     <string name="english_back_to_start_menu">Back to start menu</string>
     <string name="english_yep">Yep</string>
@@ -23,7 +23,6 @@
     <string name="english_russian">Russian</string>
 
     <!-- russian -->
-    <string name="russian_app_name">MovierProject</string>
     <string name="russian_its_a_match">Это матч!</string>
     <string name="russian_back_to_start_menu">Вернуться в начальное меню</string>
     <string name="russian_yep">Ага</string>

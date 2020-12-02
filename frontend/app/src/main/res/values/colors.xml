@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="backgroundColor">#B8DDDA</color>
-    <color name="buttonColor">#FF6A3B</color>
-    <color name="spinnerBackground">#FF6A3B</color>
-    <color name="spinnerArrowColor">#B8DDDA</color>
-    <color name="inputUnderLineColor">#A268BC</color>
+    <!-- Light -->
+    <color name="backgroundColorLight">#B7CFCD</color>
+    <color name="buttonColorLight">#F69374</color>
+    <color name="textColorLight">#000000</color>
 
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <!-- Dark -->
+    <color name="backgroundColorDark">#292929</color>
+    <color name="buttonColorDark">#4A4745</color>
+    <color name="textColorDark">#FDF4F1</color>
+
 </resources>

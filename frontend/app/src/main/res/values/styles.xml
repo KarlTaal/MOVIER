@@ -1,9 +1,32 @@
 <resources>
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="ButtonStyleLight">
+        <item name="android:background">@color/buttonColorLight</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="ButtonStyleDark">
+        <item name="android:background">@color/buttonColorDark</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+
+    <!-- Light theme -->
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/backgroundColorLight</item>
+        <item name="android:buttonStyle">@style/ButtonStyleLight</item>
+        <item name="android:textColor">@color/textColorLight</item>
+        <item name="android:textColorHint">@color/textColorLight</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+
+    <!-- Dark theme -->
+    <style name="AppThemeDark" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/backgroundColorDark</item>
+        <item name="android:buttonStyle">@style/ButtonStyleDark</item>
+        <item name="android:textColor">@color/textColorDark</item>
+        <item name="android:textColorHint">@color/textColorDark</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
 </resources>
