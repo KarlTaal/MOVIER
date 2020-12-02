@@ -16,7 +16,7 @@ class SettingsActivity : AppCompatActivity() {
         var TAG = SettingsActivity::class.java.name
     }
 
-    val languageOptions = arrayListOf("English", "Estonian")
+    val languageOptions = arrayListOf("English", "Russian")
     lateinit var preferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +54,7 @@ class SettingsActivity : AppCompatActivity() {
         val currentLanguage = preferences.getString("language", "english") //default value is light
         if (currentLanguage == "english")
             language_selector.setSelection(0)
-        else if (currentLanguage == "estonian")
+        else if (currentLanguage == "russian")
             language_selector.setSelection(1)
 
         language_selector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -70,7 +70,7 @@ class SettingsActivity : AppCompatActivity() {
                 if (id.toInt() == 0)
                     editor.putString("language", "english")
                 else if (id.toInt() == 1)
-                    editor.putString("language", "estonian")
+                    editor.putString("language", "russian")
                 editor.commit()
                 //Toast.makeText(baseContext, languageOptions[id.toInt()], Toast.LENGTH_SHORT).show()
             }

@@ -20,6 +20,8 @@ class StartMenuActivity : AppCompatActivity() {
 
     lateinit var preferences: SharedPreferences
 
+    var genreQueryLanguage: String = "en-US"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         preferences = getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE)
@@ -30,6 +32,20 @@ class StartMenuActivity : AppCompatActivity() {
         setupGenreSelector()
         setSupportActionBar(findViewById(R.id.toolbar))
 
+    }
+
+    fun updateGenreSelection(){
+        val prefLang = preferences.getString("language", "english")
+        if (prefLang === "english")
+            genreQueryLanguage = "en-US"
+        if (prefLang === "russian")
+            genreQueryLanguage = "ru"
+        setupGenreSelector()
+    }
+
+    override fun onResume() { //we have to update in onResume, because onCreate is not called when we hit back button
+        super.onResume()
+        updateGenreSelection()
     }
 
     fun preferencesSetupOnFirstRun(){
@@ -98,7 +114,7 @@ class StartMenuActivity : AppCompatActivity() {
         Ion.with(this)
             .load("GET", "https://api.themoviedb.org/3/genre/movie/list?")
             .addQuery("api_key", resources.getString(R.string.api_key))
-            .addQuery("language", "Estonian")
+            .addQuery("language", genreQueryLanguage)
             .asJsonObject()
             .setCallback { e, result ->
                 val genres = result["genres"].asJsonArray
