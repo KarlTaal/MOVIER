@@ -3,15 +3,20 @@ package com.example.movierproject
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuItem
 import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.koushikdutta.ion.Ion
 import kotlinx.android.synthetic.main.start_menu.*
+import java.util.*
+
 
 class StartMenuActivity : AppCompatActivity() {
     companion object {
@@ -32,30 +37,49 @@ class StartMenuActivity : AppCompatActivity() {
         setupGenreSelector()
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        updateLanguage()
     }
 
-    fun updateGenreSelection(){
+    fun updateLanguage(){
+        //genre selections
         val prefLang = preferences.getString("language", "english")
-        if (prefLang === "english")
+        if (prefLang == "english")
             genreQueryLanguage = "en-US"
-        if (prefLang === "russian")
+        if (prefLang == "russian")
             genreQueryLanguage = "ru"
         setupGenreSelector()
+
+        //labels
+        if (prefLang == "english"){
+            main_menu_header.text = getString(R.string.english_movier)
+            start_session_btn.text = getString(R.string.english_start_new_session)
+            main_menu_or.text = getString(R.string.english_or)
+            join_session_btn.text = getString(R.string.english_join_session)
+            session_key_input.hint = getString(R.string.english_session_key)
+        }
+        if (prefLang == "russian"){
+            main_menu_header.text = getString(R.string.russian_movier)
+            start_session_btn.text = getString(R.string.russian_start_new_session)
+            main_menu_or.text = getString(R.string.russian_or)
+            join_session_btn.text = getString(R.string.russian_join_session)
+            session_key_input.hint = getString(R.string.russian_session_key)
+        }
+
     }
 
     override fun onResume() { //we have to update in onResume, because onCreate is not called when we hit back button
         super.onResume()
-        updateGenreSelection()
+        updateLanguage()
     }
 
     fun preferencesSetupOnFirstRun(){
         val editor: SharedPreferences.Editor = preferences.edit()
         if (!preferences.contains("theme")){
-            Toast.makeText(this, "theme setup", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "theme setup", Toast.LENGTH_SHORT).show()
             editor.putString("theme", "light")
         }
         if (!preferences.contains("language")){
-            Toast.makeText(this, "language setup", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "language setup", Toast.LENGTH_SHORT).show()
             editor.putString("language", "english")
         }
         editor.commit()

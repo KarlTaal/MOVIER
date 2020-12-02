@@ -1,20 +1,44 @@
 <resources>
-    <string name="app_name">MovierProject</string>
     <string name="api_key"></string>
-    <string name="its_a_match">It\'s a match!</string>
-    <string name="back_to_start_menu">Back to start menu</string>
-    <string name="yep">Yep</string>
-    <string name="nope">Nope</string>
-    <string name="or">OR</string>
-    <string name="start_new_session">START NEW SESSION</string>
-    <string name="join_session">JOIN SESSION</string>
-    <string name="session_key">Session Key</string>
-    <string name="movier">MOVIER</string>
-    <string name="help">Help</string>
-    <string name="settings">Settings</string>
-    <string name="dark_mode">Dark Mode</string>
-    <string name="switch_to_dark_mode_if_you_want">Switch to dark mode if you want</string>
-    <string name="language">Language</string>
-    <string name="select_language_from_dropdown">Select language from dropdown</string>
     <string name="preferences_file">preferences</string>
+
+    <!-- english -->
+    <string name="english_app_name">MovierProject</string>
+    <string name="english_its_a_match">It\'s a match!</string>
+    <string name="english_back_to_start_menu">Back to start menu</string>
+    <string name="english_yep">Yep</string>
+    <string name="english_nope">Nope</string>
+    <string name="english_or">OR</string>
+    <string name="english_start_new_session">START NEW SESSION</string>
+    <string name="english_join_session">JOIN SESSION</string>
+    <string name="english_session_key">Session Key</string>
+    <string name="english_movier">MOVIER</string>
+    <string name="english_help">Help</string>
+    <string name="english_settings">Settings</string>
+    <string name="english_dark_mode">Dark Mode</string>
+    <string name="english_switch_to_dark_mode_if_you_want">Switch to dark mode if you want</string>
+    <string name="english_language">Language</string>
+    <string name="english_select_language_from_dropdown">Select language from dropdown</string>
+    <string name="english_english">English</string>
+    <string name="english_russian">Russian</string>
+
+    <!-- russian -->
+    <string name="russian_app_name">MovierProject</string>
+    <string name="russian_its_a_match">Это матч!</string>
+    <string name="russian_back_to_start_menu">Вернуться в начальное меню</string>
+    <string name="russian_yep">Ага</string>
+    <string name="russian_nope">Неа</string>
+    <string name="russian_or">ИЛИ</string>
+    <string name="russian_start_new_session">НАЧАТЬ НОВУЮ СЕССИЮ</string>
+    <string name="russian_join_session">ПРИСОЕДИНЯЙТЕСЬ К СЕССИИ</string>
+    <string name="russian_session_key">Ключ сеанса</string>
+    <string name="russian_movier">MOVIER</string>
+    <string name="russian_help">Помогите</string>
+    <string name="russian_settings">Настройки</string>
+    <string name="russian_dark_mode">Темный режим</string>
+    <string name="russian_switch_to_dark_mode_if_you_want">Переключитесь в темный режим, если хотите</string>
+    <string name="russian_language">Язык</string>
+    <string name="russian_select_language_from_dropdown">Выберите язык из раскрывающегося списка</string>
+    <string name="russian_english">Aнглийский</string>
+    <string name="russian_russian">Pусский</string>
 </resources>

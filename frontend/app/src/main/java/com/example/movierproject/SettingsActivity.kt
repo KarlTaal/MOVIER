@@ -16,7 +16,6 @@ class SettingsActivity : AppCompatActivity() {
         var TAG = SettingsActivity::class.java.name
     }
 
-    val languageOptions = arrayListOf("English", "Russian")
     lateinit var preferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +24,7 @@ class SettingsActivity : AppCompatActivity() {
             getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE)
         setContentView(R.layout.settings)
         setupThemeSwitch()
-        setupLanguageSelector()
+        languageUpdate()
     }
 
 
@@ -46,8 +45,35 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
+    fun languageUpdate() {
+        //genre selections
+        val prefLang = preferences.getString("language", "english")
+
+        //labels
+        if (prefLang == "english"){
+            dark_mode_header.text = getString(R.string.english_dark_mode)
+            dark_mode_desc.text = getString(R.string.english_switch_to_dark_mode_if_you_want)
+            lang_mode_desc.text = getString(R.string.english_language)
+            lang_mode_header.text = getString(R.string.english_select_language_from_dropdown)
+        }
+        if (prefLang == "russian"){
+            dark_mode_header.text = getString(R.string.russian_dark_mode)
+            dark_mode_desc.text = getString(R.string.russian_switch_to_dark_mode_if_you_want)
+            lang_mode_desc.text = getString(R.string.russian_language)
+            lang_mode_header.text = getString(R.string.russian_select_language_from_dropdown)
+        }
+        setupLanguageSelector()
+    }
+
     fun setupLanguageSelector() {
-        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, languageOptions)
+        val prefLang = preferences.getString("language", "english")
+        var options = arrayListOf<String>()
+        if (prefLang == "english")
+            options = arrayListOf(getString(R.string.english_english), getString(R.string.english_russian))
+        if (prefLang == "russian")
+            options = arrayListOf(getString(R.string.russian_english), getString(R.string.russian_russian))
+
+        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, options)
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         language_selector.adapter = aa
 
@@ -72,6 +98,7 @@ class SettingsActivity : AppCompatActivity() {
                 else if (id.toInt() == 1)
                     editor.putString("language", "russian")
                 editor.commit()
+                languageUpdate()
                 //Toast.makeText(baseContext, languageOptions[id.toInt()], Toast.LENGTH_SHORT).show()
             }
         }
