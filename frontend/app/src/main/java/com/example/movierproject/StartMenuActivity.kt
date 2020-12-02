@@ -1,9 +1,10 @@
 package com.example.movierproject
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.animation.AnimationUtils
@@ -17,13 +18,31 @@ class StartMenuActivity : AppCompatActivity() {
         var TAG = StartMenuActivity::class.java.name
     }
 
+    lateinit var preferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preferences = getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE)
         setContentView(R.layout.start_menu)
+
+        preferencesSetupOnFirstRun()
         setupButtons()
         setupGenreSelector()
         setSupportActionBar(findViewById(R.id.toolbar))
+
+    }
+
+    fun preferencesSetupOnFirstRun(){
+        val editor: SharedPreferences.Editor = preferences.edit()
+        if (!preferences.contains("theme")){
+            Toast.makeText(this, "theme setup", Toast.LENGTH_SHORT).show()
+            editor.putString("theme", "light")
+        }
+        if (!preferences.contains("language")){
+            Toast.makeText(this, "language setup", Toast.LENGTH_SHORT).show()
+            editor.putString("language", "english")
+        }
+        editor.commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -79,7 +98,7 @@ class StartMenuActivity : AppCompatActivity() {
         Ion.with(this)
             .load("GET", "https://api.themoviedb.org/3/genre/movie/list?")
             .addQuery("api_key", resources.getString(R.string.api_key))
-            .addQuery("language", "en-US")
+            .addQuery("language", "Estonian")
             .asJsonObject()
             .setCallback { e, result ->
                 val genres = result["genres"].asJsonArray

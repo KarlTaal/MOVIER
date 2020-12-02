@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MovierProject</string>
-    <string name="api_key"></string>
+    <string name="api_key">bc45d06050c9d27992840c595db55a29</string>
     <string name="its_a_match">It\'s a match!</string>
     <string name="back_to_start_menu">Back to start menu</string>
     <string name="yep">Yep</string>
@@ -12,4 +12,9 @@
     <string name="movier">MOVIER</string>
     <string name="help">Help</string>
     <string name="settings">Settings</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="switch_to_dark_mode_if_you_want">Switch to dark mode if you want</string>
+    <string name="language">Language</string>
+    <string name="select_language_from_dropdown">Select language from dropdown</string>
+    <string name="preferences_file">preferences</string>
 </resources>
