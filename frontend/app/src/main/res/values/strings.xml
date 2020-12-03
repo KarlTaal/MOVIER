@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MovierProject</string>
-    <string name="api_key"></string>
+    <string name="api_key">bc45d06050c9d27992840c595db55a29</string>
     <string name="its_a_match">It\'s a match!</string>
     <string name="back_to_start_menu">Back to start menu</string>
     <string name="yep">Yep</string>
