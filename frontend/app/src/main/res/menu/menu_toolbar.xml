@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/option_help"
-        android:title="@string/help"
+        android:title="@string/english_help"
         app:showAsAction="never"
         />
     <item
         android:id="@+id/option_settings"
-        android:title="@string/settings"
+        android:title="@string/english_settings"
         app:showAsAction="never"
         />
 </menu>

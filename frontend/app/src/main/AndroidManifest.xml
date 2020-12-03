@@ -3,12 +3,13 @@
     package="com.example.movierproject">
 
     <application
+        android:configChanges="locale|orientation"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppThemeLight">
         <activity android:name=".MovieSelectingActivity"/>
         <activity android:name=".MatchActivity"/>
         <activity android:name=".HelpActivity"/>
