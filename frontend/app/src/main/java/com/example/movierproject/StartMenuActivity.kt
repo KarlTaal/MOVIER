@@ -1,5 +1,6 @@
 package com.example.movierproject
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -26,6 +27,7 @@ class StartMenuActivity : AppCompatActivity() {
 
     lateinit var preferences: SharedPreferences
 
+    var roomId = 0
     var genreQueryLanguage: String = "en-US"
     var lastTheme = -10000 //inital value, -10000 means unset
 
@@ -144,6 +146,9 @@ class StartMenuActivity : AppCompatActivity() {
     fun setupButtons() {
         start_session_btn.setOnClickListener {
             run {
+                Thread {
+                    startNewRoom()
+                }
                 switchToMovieSelectingActivity()
             }
         }
@@ -188,6 +193,17 @@ class StartMenuActivity : AppCompatActivity() {
     fun switchToMovieSelectingActivity() {
         val intent = Intent(this, MovieSelectingActivity::class.java)
         startActivity(intent)
+    }
+
+    @SuppressLint("StringFormatMatches")
+    private fun startNewRoom() {
+        val address = R.string.address
+        Ion.with(this)
+            .load("POST", getString(R.string.create_room, address))
+            .asJsonObject()
+            .setCallback { e, result ->
+                roomId = result["roomId"].asInt
+            }
     }
 
 }

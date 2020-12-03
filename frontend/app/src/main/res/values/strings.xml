@@ -1,7 +1,11 @@
 <resources>
-    <string name="api_key">bc45d06050c9d27992840c595db55a29</string>
+    <string name="api_key"></string>
     <string name="preferences_file">preferences</string>
     <string name="app_name">MovierProject</string>
+
+    <!-- REST API endpoints -->
+    <string name="address">YOUR LOCAL API</string>
+    <string name="create_room">http://%1$s:3000/create</string>
 
     <!-- english -->
     <string name="english_its_a_match">It\'s a match!</string>
@@ -28,8 +32,8 @@
     <string name="russian_yep">Ага</string>
     <string name="russian_nope">Неа</string>
     <string name="russian_or">ИЛИ</string>
-    <string name="russian_start_new_session">НАЧАТЬ НОВУЮ СЕАНС</string>
-    <string name="russian_join_session">ПРИСОЕДИНЯЙТЕСЬ К СЕАНСУ</string>
+    <string name="russian_start_new_session">НАЧАТЬ НОВЫЙ СЕАНС</string>
+    <string name="russian_join_session">ПРИСОЕДИНИТЬСЯ К СЕАНСУ</string>
     <string name="russian_session_key">Ключ сеанса</string>
     <string name="russian_movier">MOVIER</string>
     <string name="russian_help">Помощь</string>
