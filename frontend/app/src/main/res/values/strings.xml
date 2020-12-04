@@ -5,7 +5,7 @@
 
     <!-- REST API endpoints -->
     <string name="address">YOUR LOCAL API</string>
-    <string name="create_room">http://%1$s:3000/create</string>
+    <string name="uri">http://%1$s:3000</string>
 
     <!-- english -->
     <string name="english_its_a_match">It\'s a match!</string>

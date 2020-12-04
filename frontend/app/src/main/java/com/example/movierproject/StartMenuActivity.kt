@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.koushikdutta.ion.Ion
 import kotlinx.android.synthetic.main.start_menu.*
 import java.util.*
+import kotlin.concurrent.thread
 import kotlin.properties.Delegates
 
 
@@ -27,7 +28,7 @@ class StartMenuActivity : AppCompatActivity() {
 
     lateinit var preferences: SharedPreferences
 
-    var roomId = 0
+    var roomId = ""
     var genreQueryLanguage: String = "en-US"
     var lastTheme = -10000 //inital value, -10000 means unset
 
@@ -146,10 +147,7 @@ class StartMenuActivity : AppCompatActivity() {
     fun setupButtons() {
         start_session_btn.setOnClickListener {
             run {
-                Thread {
-                    startNewRoom()
-                }
-                switchToMovieSelectingActivity()
+                startNewRoom()
             }
         }
 
@@ -191,18 +189,21 @@ class StartMenuActivity : AppCompatActivity() {
     }
 
     fun switchToMovieSelectingActivity() {
-        val intent = Intent(this, MovieSelectingActivity::class.java)
+        val intent = Intent(this, GenreSelectActivity::class.java)
+        intent.putExtra("roomId", roomId)
+        intent.putExtra("language", genreQueryLanguage)
         startActivity(intent)
     }
 
-    @SuppressLint("StringFormatMatches")
     private fun startNewRoom() {
-        val address = R.string.address
+        val address = getString(R.string.address)
+        val URI = getString(R.string.uri, address) + "/create"
         Ion.with(this)
-            .load("POST", getString(R.string.create_room, address))
+            .load("POST", URI)
             .asJsonObject()
             .setCallback { e, result ->
-                roomId = result["roomId"].asInt
+                roomId = result.asJsonObject["room"].asString
+                switchToMovieSelectingActivity()
             }
     }
 
