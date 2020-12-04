@@ -1,24 +1,16 @@
 package com.example.movierproject
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuItem
 import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.koushikdutta.ion.Ion
 import kotlinx.android.synthetic.main.start_menu.*
-import java.util.*
-import kotlin.concurrent.thread
-import kotlin.properties.Delegates
 
 
 class StartMenuActivity : AppCompatActivity() {
@@ -28,7 +20,6 @@ class StartMenuActivity : AppCompatActivity() {
 
     lateinit var preferences: SharedPreferences
 
-    var roomId = ""
     var genreQueryLanguage: String = "en-US"
     var lastTheme = -10000 //inital value, -10000 means unset
 
@@ -42,7 +33,7 @@ class StartMenuActivity : AppCompatActivity() {
         setContentView(R.layout.start_menu)
 
         setupButtons()
-        setupGenreSelector()
+        //setupGenreSelector()
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
@@ -81,7 +72,7 @@ class StartMenuActivity : AppCompatActivity() {
             genreQueryLanguage = "en-US"
         if (prefLang == "russian")
             genreQueryLanguage = "ru"
-        setupGenreSelector()
+        //setupGenreSelector()
 
         //labels
         if (prefLang == "english") {
@@ -160,12 +151,18 @@ class StartMenuActivity : AppCompatActivity() {
 
     fun handleJoinClick() {
         val key = session_key_input.text.toString()
-        val regex = "#[0-9]{5}".toRegex()
+        val regex = "[0-9]{5}".toRegex()
         if (!regex.matches(key)) {
             val animShake = AnimationUtils.loadAnimation(this, R.anim.shake)
             session_key_input.startAnimation(animShake)
         } else {
-            switchToMovieSelectingActivity()
+            val address = getString(R.string.address)
+            val URI = getString(R.string.uri, address) + "/join/$key"
+            Ion.with(this)
+                .load("POST", URI)
+                .asJsonObject()
+                .withResponse()
+            switchToMovieSelectingActivity(key)
         }
     }
 
@@ -188,7 +185,7 @@ class StartMenuActivity : AppCompatActivity() {
             }
     }
 
-    fun switchToMovieSelectingActivity() {
+    fun switchToMovieSelectingActivity(roomId: String) {
         val intent = Intent(this, GenreSelectActivity::class.java)
         intent.putExtra("roomId", roomId)
         intent.putExtra("language", genreQueryLanguage)
@@ -202,8 +199,8 @@ class StartMenuActivity : AppCompatActivity() {
             .load("POST", URI)
             .asJsonObject()
             .setCallback { e, result ->
-                roomId = result.asJsonObject["room"].asString
-                switchToMovieSelectingActivity()
+                val roomId = result.asJsonObject["room"].asString
+                switchToMovieSelectingActivity(roomId)
             }
     }
 

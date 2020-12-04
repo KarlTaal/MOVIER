@@ -25,6 +25,8 @@ class GenreSelectActivity : AppCompatActivity(), AdapterView.OnItemClickListener
         genreQueryLanguage = intent.getStringExtra("genreQueryLanguage").toString()
         roomId = intent.getStringExtra("roomId").toString()
 
+        roomCode.text = "Room code: $roomId"
+
         listView = findViewById(R.id.genre_select)
         arrayAdapter = ArrayAdapter(
             applicationContext,
