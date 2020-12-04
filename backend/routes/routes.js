@@ -100,7 +100,7 @@ const appRouter = (app, fs, admin) => {
   });
 
   //http://localhost:3000/genres?genre[]=1&genre[]=2
-  app.post("/genres/:roomId", (req, res) => {
+  app.post("/:roomId/genres", (req, res) => {
     const list = req.query.genre.map(i => parseInt(i));
     const roomId = req.params["roomId"];
     addGenre(roomId, list, admin).then(r => {
