@@ -1,12 +1,20 @@
 <resources>
     <style name="ButtonStyleLight">
-        <item name="android:background">@color/buttonColorLight</item>
+        <item name="android:background">@drawable/button_light</item>
         <item name="android:padding">10dp</item>
     </style>
 
     <style name="ButtonStyleDark">
-        <item name="android:background">@color/buttonColorDark</item>
+        <item name="android:background">@drawable/button_dark</item>
         <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="ListViewStyleDark">
+        <item name="android:background">@color/buttonColorDark</item>
+    </style>
+
+    <style name="ListViewStyleLight">
+        <item name="android:background">@color/backgroundColorLight</item>
     </style>
 
 
@@ -17,6 +25,7 @@
         <item name="android:textColor">@color/textColorLight</item>
         <item name="android:textColorHint">@color/textColorLight</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:listViewStyle">@style/ListViewStyleLight</item>
     </style>
 
 
@@ -27,6 +36,7 @@
         <item name="android:textColor">@color/textColorDark</item>
         <item name="android:textColorHint">@color/textColorDark</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:listViewStyle">@style/ListViewStyleDark</item>
     </style>
 
 </resources>

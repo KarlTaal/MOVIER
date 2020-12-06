@@ -1,11 +1,15 @@
 package com.example.movierproject
 
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import com.koushikdutta.ion.Ion
+import kotlinx.android.synthetic.main.activity_genre_select.*
 import kotlinx.android.synthetic.main.movie_details.*
 import kotlinx.android.synthetic.main.movie_selecting.*
 
@@ -15,12 +19,80 @@ class MovieSelectingActivity : AppCompatActivity() {
         var TAG = MovieSelectingActivity::class.java.name
     }
 
+    var lastTheme = -10000 //inital value, -10000 means unset
+    private var QueryLanguage: String = "en-US"
+    lateinit var preferences: SharedPreferences
+
+
     val moviesList: MutableList<HashMap<String, String>> = mutableListOf()
     var currentMovieIndex = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        preferences = getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE)
+        updateTheme() //has to be called between onCreate and setContent
+
         setContentView(R.layout.movie_selecting)
+        updateLanguage()
+
         getMovies()
+        movie_overview.movementMethod = ScrollingMovementMethod()
+
+    }
+
+    fun updateLanguage() {
+        val prefLang = preferences.getString(getString(R.string.preferences_language_key), getString(R.string.preferences_language_english_value))
+        if (prefLang == getString(R.string.preferences_language_english_value))
+            QueryLanguage = "en-US"
+        if (prefLang == getString(R.string.preferences_language_russian_value))
+            QueryLanguage = "ru"
+        if (prefLang == getString(R.string.preferences_language_finnish_value))
+            QueryLanguage = "fi"
+
+        //labels
+        if (prefLang == getString(R.string.preferences_language_english_value)) {
+            dislike_button.text = getString(R.string.english_nope)
+            like_button.text = getString(R.string.english_yep)
+        }
+        if (prefLang == getString(R.string.preferences_language_russian_value)) {
+            dislike_button.text = getString(R.string.russian_nope)
+            like_button.text = getString(R.string.russian_yep)
+        }
+        if (prefLang == getString(R.string.preferences_language_finnish_value)) {
+            dislike_button.text = getString(R.string.finnish_nope)
+            like_button.text = getString(R.string.finnish_yep)
+        }
+
+    }
+
+    fun updateTheme() {
+        val prefTheme = preferences.getString(getString(R.string.preferences_theme_key), getString(R.string.preferences_theme_light_value))
+        if (lastTheme == -10000) { //when update is called from onCreate
+            if (prefTheme == getString(R.string.preferences_theme_light_value)) {
+                setTheme(R.style.AppThemeLight)
+                lastTheme = R.style.AppThemeLight
+            }
+            if (prefTheme == getString(R.string.preferences_theme_dark_value)) {
+                setTheme(R.style.AppThemeDark)
+                lastTheme = R.style.AppThemeDark
+            }
+        } else { //we need to call recreate but only when needed because otherwise it will go in infinite loop
+            if (prefTheme == getString(R.string.preferences_theme_light_value) && lastTheme != R.style.AppThemeLight) {
+                setTheme(R.style.AppThemeLight)
+                lastTheme = R.style.AppThemeLight
+                this.recreate()
+            }
+            if (prefTheme == getString(R.string.preferences_theme_dark_value) && lastTheme != R.style.AppThemeDark) {
+                setTheme(R.style.AppThemeDark)
+                lastTheme = R.style.AppThemeDark
+                this.recreate()
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateLanguage()
+        updateTheme()
     }
 
     fun getMovies() {
@@ -28,6 +100,7 @@ class MovieSelectingActivity : AppCompatActivity() {
             .load("GET", "https://api.themoviedb.org/3/discover/movie?")
             .addQuery("api_key", resources.getString(R.string.api_key))
             .addQuery("with_genres", "28")
+            .addQuery("language", QueryLanguage)
             .asJsonObject()
             .setCallback { e, result ->
                 val movies = result["results"].asJsonArray

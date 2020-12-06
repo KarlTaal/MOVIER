@@ -7,10 +7,11 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/dev_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This app was developed by Artjom and Karl"
+        android:textSize="@dimen/text_size"
+        android:text="@string/english_dev_info"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

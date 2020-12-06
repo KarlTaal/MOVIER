@@ -1,18 +1,29 @@
 <resources>
-    <string name="api_key"></string>
-    <string name="preferences_file">preferences</string>
+    <string name="api_key"></string> <!-- add moviedb api key here -->
     <string name="app_name">MovierProject</string>
+    <string name="poster_content_description">movie poster</string>
 
     <!-- REST API endpoints -->
-    <string name="address">YOUR LOCAL API</string>
+    <string name="address"></string> <!-- your ip4 -->
     <string name="uri">http://%1$s:3000</string>
+
+
+    <!-- Preferences -->
+    <string name="preferences_file">preferences</string>
+    <string name="preferences_theme_key">theme</string>
+    <string name="preferences_theme_light_value">light</string>
+    <string name="preferences_theme_dark_value">dark</string>
+    <string name="preferences_language_key">language</string>
+    <string name="preferences_language_english_value">english</string>
+    <string name="preferences_language_russian_value">russian</string>
+    <string name="preferences_language_finnish_value">finnish</string>
+
 
     <!-- english -->
     <string name="english_its_a_match">It\'s a match!</string>
     <string name="english_back_to_start_menu">Back to start menu</string>
-    <string name="english_yep">Yep</string>
-    <string name="english_nope">Nope</string>
-    <string name="english_or">OR</string>
+    <string name="english_yep">Like</string>
+    <string name="english_nope">Dislike</string>
     <string name="english_start_new_session">START NEW SESSION</string>
     <string name="english_join_session">JOIN SESSION</string>
     <string name="english_session_key">Session Key</string>
@@ -25,17 +36,22 @@
     <string name="english_select_language_from_dropdown">Select language from dropdown</string>
     <string name="english_english">English</string>
     <string name="english_russian">Russian</string>
+    <string name="english_finnish">Finnish</string>
+    <string name="english_everyone_ready">Everyone ready</string>
+    <string name="english_submit_genres">Select Genres</string>
+    <string name="english_dev_info">This app was developed by Artjom and Karl</string>
+    <string name="english_room_code">Room code: %1$s</string>
+
 
     <!-- russian -->
     <string name="russian_its_a_match">Совпадение!</string>
     <string name="russian_back_to_start_menu">Вернуться в начальное меню</string>
-    <string name="russian_yep">Ага</string>
-    <string name="russian_nope">Неа</string>
-    <string name="russian_or">ИЛИ</string>
+    <string name="russian_yep">Подобно</string>
+    <string name="russian_nope">Неприязнь</string>
     <string name="russian_start_new_session">НАЧАТЬ НОВЫЙ СЕАНС</string>
     <string name="russian_join_session">ПРИСОЕДИНИТЬСЯ К СЕАНСУ</string>
     <string name="russian_session_key">Ключ сеанса</string>
-    <string name="russian_movier">MOVIER</string>
+    <string name="russian_movier">MOVIER</string> <!-- TODO proper name here-->
     <string name="russian_help">Помощь</string>
     <string name="russian_settings">Настройки</string>
     <string name="russian_dark_mode">Темный режим</string>
@@ -44,4 +60,34 @@
     <string name="russian_select_language_from_dropdown">Выберите язык из раскрывающегося списка</string>
     <string name="russian_english">Aнглийский</string>
     <string name="russian_russian">Pусский</string>
+    <string name="russian_finnish">Финский</string>
+    <string name="russian_everyone_ready">Все готовы</string>
+    <string name="russian_submit_genres">Выбрать жанры</string>
+    <string name="russian_dev_info">Это приложение было разработано Artjom и Karl</string>
+    <string name="russian_room_code">Код номера: %1$s</string>
+
+
+    <!-- finnish -->
+    <string name="finnish_its_a_match">Se on pari!</string>
+    <string name="finnish_back_to_start_menu">Takaisin aloitusvalikkoon</string>
+    <string name="finnish_yep">Kuten</string>
+    <string name="finnish_nope">Inhoaa</string>
+    <string name="finnish_start_new_session">ALOITA UUSI ISTUNTO</string>
+    <string name="finnish_join_session">LIITY ISTUNTOON</string>
+    <string name="finnish_session_key">Istunnon avain</string>
+    <string name="finnish_movier">MOVIER</string> <!-- TODO proper name here-->
+    <string name="finnish_help">Auta</string>
+    <string name="finnish_settings">Asetukset</string>
+    <string name="finnish_dark_mode">Tumma tila</string>
+    <string name="finnish_switch_to_dark_mode_if_you_want">Vaihda pimeään tilaan, jos haluat</string>
+    <string name="finnish_language">Kieli</string>
+    <string name="finnish_select_language_from_dropdown">Valitse kieli avattavasta valikosta</string>
+    <string name="finnish_english">Englanti</string>
+    <string name="finnish_russian">Venäjän kieli</string>
+    <string name="finnish_finnish">Suomalainen</string>
+    <string name="finnish_everyone_ready">Kaikki valmiina</string>
+    <string name="finnish_submit_genres">Valitse Tyylit</string>
+    <string name="finnish_dev_info">Tämän sovelluksen ovat kehittäneet Artjom ja Karl</string>
+    <string name="finnish_room_code">Huonekoodi: %1$s</string>
+
 </resources>

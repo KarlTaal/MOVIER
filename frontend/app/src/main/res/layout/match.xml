@@ -16,11 +16,11 @@
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/match_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/english_its_a_match"
-        android:textSize="40sp"
+        android:textSize="@dimen/secondary_title_size"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,9 +29,10 @@
     <Button
         android:id="@+id/back_to_start_menu_btn"
         android:layout_width="0dp"
+        android:textSize="@dimen/button_text_size"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginStart="@dimen/one_button_margin"
+        android:layout_marginEnd="@dimen/one_button_margin"
         android:text="@string/english_back_to_start_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.8" />
+        app:layout_constraintGuide_percent="0.85" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline7"

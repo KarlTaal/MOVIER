@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="one_button_margin">100dp</dimen>
+    <dimen name="button_text_size">17sp</dimen>
+    <dimen name="text_size">15sp</dimen>
+    <dimen name="main_title_size">54sp</dimen>
+    <dimen name="secondary_title_size">40sp</dimen>
+    <dimen name="movie_title_size">30sp</dimen>
+    <dimen name="room_id_title_size">22sp</dimen>
+</resources>
