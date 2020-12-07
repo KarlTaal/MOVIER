@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="languageQueryKey">fi</string>
+    <string name="its_a_match">Se on pari!</string>
+    <string name="back_to_start_menu">Takaisin aloitusvalikkoon</string>
+    <string name="poster_content_description">Tämä on elokuvajuliste</string>
+    <string name="yep">Kuten</string>
+    <string name="nope">Inhoaa</string>
+    <string name="start_new_session">ALOITA UUSI ISTUNTO</string>
+    <string name="join_session">LIITY ISTUNTOON</string>
+    <string name="session_key">Istunnon avain</string>
+    <string name="movier">MOVIER</string> <!-- TODO proper name here-->
+    <string name="help">Auta</string>
+    <string name="settings">Asetukset</string>
+    <string name="dark_mode">Tumma tila</string>
+    <string name="switch_to_dark_mode_if_you_want">Vaihda pimeään tilaan, jos haluat</string>
+    <string name="everyone_ready">Kaikki valmiina</string>
+    <string name="submit_genres">Valitse Tyylit</string>
+    <string name="dev_info">Tämän sovelluksen ovat kehittäneet Artjom ja Karl</string>
+    <string name="room_code">Huonekoodi: %1$s</string>
+</resources>

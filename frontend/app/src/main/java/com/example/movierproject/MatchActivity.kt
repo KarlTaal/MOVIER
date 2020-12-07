@@ -25,30 +25,10 @@ class MatchActivity : AppCompatActivity() {
 
         updateTheme() //has to be called between onCreate and setContent
         setContentView(R.layout.match)
-        updateLanguage()
 
         setupBackToMenuClickHandler()
         setupFragmentContent()
         movie_overview.movementMethod = ScrollingMovementMethod()
-    }
-
-    fun updateLanguage() {
-        val prefLang = preferences.getString(getString(R.string.preferences_language_key), getString(R.string.preferences_language_english_value))
-
-        //labels
-        if (prefLang == getString(R.string.preferences_language_english_value)) {
-            match_title.text = getString(R.string.english_its_a_match)
-            back_to_start_menu_btn.text = getString(R.string.english_back_to_start_menu)
-        }
-        if (prefLang == getString(R.string.preferences_language_russian_value)) {
-            match_title.text = getString(R.string.russian_its_a_match)
-            back_to_start_menu_btn.text = getString(R.string.russian_back_to_start_menu)
-        }
-        if (prefLang == getString(R.string.preferences_language_finnish_value)) {
-            match_title.text = getString(R.string.finnish_its_a_match)
-            back_to_start_menu_btn.text = getString(R.string.finnish_back_to_start_menu)
-        }
-
     }
 
     fun updateTheme() {
@@ -78,7 +58,6 @@ class MatchActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        updateLanguage()
         updateTheme()
     }
 

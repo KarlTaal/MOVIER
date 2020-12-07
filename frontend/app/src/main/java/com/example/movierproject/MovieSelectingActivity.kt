@@ -20,7 +20,6 @@ class MovieSelectingActivity : AppCompatActivity() {
     }
 
     var lastTheme = -10000 //inital value, -10000 means unset
-    private var QueryLanguage: String = "en-US"
     lateinit var preferences: SharedPreferences
 
 
@@ -32,37 +31,12 @@ class MovieSelectingActivity : AppCompatActivity() {
         updateTheme() //has to be called between onCreate and setContent
 
         setContentView(R.layout.movie_selecting)
-        updateLanguage()
 
         getMovies()
         movie_overview.movementMethod = ScrollingMovementMethod()
 
     }
 
-    fun updateLanguage() {
-        val prefLang = preferences.getString(getString(R.string.preferences_language_key), getString(R.string.preferences_language_english_value))
-        if (prefLang == getString(R.string.preferences_language_english_value))
-            QueryLanguage = "en-US"
-        if (prefLang == getString(R.string.preferences_language_russian_value))
-            QueryLanguage = "ru"
-        if (prefLang == getString(R.string.preferences_language_finnish_value))
-            QueryLanguage = "fi"
-
-        //labels
-        if (prefLang == getString(R.string.preferences_language_english_value)) {
-            dislike_button.text = getString(R.string.english_nope)
-            like_button.text = getString(R.string.english_yep)
-        }
-        if (prefLang == getString(R.string.preferences_language_russian_value)) {
-            dislike_button.text = getString(R.string.russian_nope)
-            like_button.text = getString(R.string.russian_yep)
-        }
-        if (prefLang == getString(R.string.preferences_language_finnish_value)) {
-            dislike_button.text = getString(R.string.finnish_nope)
-            like_button.text = getString(R.string.finnish_yep)
-        }
-
-    }
 
     fun updateTheme() {
         val prefTheme = preferences.getString(getString(R.string.preferences_theme_key), getString(R.string.preferences_theme_light_value))
@@ -91,7 +65,6 @@ class MovieSelectingActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        updateLanguage()
         updateTheme()
     }
 
@@ -100,7 +73,7 @@ class MovieSelectingActivity : AppCompatActivity() {
             .load("GET", "https://api.themoviedb.org/3/discover/movie?")
             .addQuery("api_key", resources.getString(R.string.api_key))
             .addQuery("with_genres", "28")
-            .addQuery("language", QueryLanguage)
+            .addQuery("language", getString(R.string.languageQueryKey))
             .asJsonObject()
             .setCallback { e, result ->
                 val movies = result["results"].asJsonArray

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="languageQueryKey">ru</string>
+    <string name="its_a_match">Совпадение!</string>
+    <string name="back_to_start_menu">Вернуться в начальное меню</string>
+    <string name="poster_content_description">Tämä on elokuvajuliste</string>
+    <string name="yep">Подобно</string>
+    <string name="nope">Неприязнь</string>
+    <string name="start_new_session">НАЧАТЬ НОВЫЙ СЕАНС</string>
+    <string name="join_session">ПРИСОЕДИНИТЬСЯ К СЕАНСУ</string>
+    <string name="session_key">Ключ сеанса</string>
+    <string name="movier">MOVIER</string> <!-- TODO proper name here-->
+    <string name="help">Помощь</string>
+    <string name="settings">Настройки</string>
+    <string name="dark_mode">Темный режим</string>
+    <string name="switch_to_dark_mode_if_you_want">Переключитесь в темный режим, если хотите</string>
+    <string name="everyone_ready">Все готовы</string>
+    <string name="submit_genres">Выбрать жанры</string>
+    <string name="dev_info">Это приложение было разработано Artjom и Karl</string>
+    <string name="room_code">Код номера: %1$s</string>
+</resources>

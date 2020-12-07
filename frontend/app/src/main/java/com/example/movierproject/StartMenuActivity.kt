@@ -21,8 +21,6 @@ class StartMenuActivity : AppCompatActivity() {
     lateinit var preferences: SharedPreferences
 
     var lastTheme = -10000 //inital value, -10000 means unset
-    lateinit var menuItemName1: String
-    lateinit var menuItemName2: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,11 +29,8 @@ class StartMenuActivity : AppCompatActivity() {
 
         updateTheme() //has to be called between onCreate and setContent
         setContentView(R.layout.start_menu)
-        updateLanguage()
-
 
         setupButtons()
-        //setupGenreSelector()
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
@@ -66,42 +61,9 @@ class StartMenuActivity : AppCompatActivity() {
         }
     }
 
-    fun updateLanguage() {
-        //genre selections
-        val prefLang = preferences.getString(getString(R.string.preferences_language_key), getString(R.string.preferences_language_english_value))
-
-        //labels
-        if (prefLang == getString(R.string.preferences_language_english_value)) {
-            main_menu_header.text = getString(R.string.english_movier)
-            start_session_btn.text = getString(R.string.english_start_new_session)
-            join_session_btn.text = getString(R.string.english_join_session)
-            session_key_input.hint = getString(R.string.english_session_key)
-            menuItemName1 = getString(R.string.english_help)
-            menuItemName2 = getString(R.string.english_settings)
-        }
-        if (prefLang == getString(R.string.preferences_language_russian_value)) {
-            main_menu_header.text = getString(R.string.russian_movier)
-            start_session_btn.text = getString(R.string.russian_start_new_session)
-            join_session_btn.text = getString(R.string.russian_join_session)
-            session_key_input.hint = getString(R.string.russian_session_key)
-            menuItemName1 = getString(R.string.russian_help)
-            menuItemName2 = getString(R.string.russian_settings)
-        }
-        if (prefLang == getString(R.string.preferences_language_finnish_value)) {
-            main_menu_header.text = getString(R.string.finnish_movier)
-            start_session_btn.text = getString(R.string.finnish_start_new_session)
-            join_session_btn.text = getString(R.string.finnish_join_session)
-            session_key_input.hint = getString(R.string.finnish_session_key)
-            menuItemName1 = getString(R.string.finnish_help)
-            menuItemName2 = getString(R.string.finnish_settings)
-        }
-
-    }
 
     override fun onResume() { //we have to update in onResume, because onCreate is not called when we hit back button
         super.onResume()
-        updateLanguage()
-        invalidateOptionsMenu() //refresh menuOptions in case of language update
         updateTheme()
     }
 
@@ -111,29 +73,22 @@ class StartMenuActivity : AppCompatActivity() {
             //Toast.makeText(this, "theme setup", Toast.LENGTH_SHORT).show()
             editor.putString(getString(R.string.preferences_theme_key), getString(R.string.preferences_theme_light_value))
         }
-        if (!preferences.contains(getString(R.string.preferences_language_key))) {
-            //Toast.makeText(this, "language setup", Toast.LENGTH_SHORT).show()
-            editor.putString(getString(R.string.preferences_language_key), getString(R.string.preferences_language_english_value))
-        }
         editor.commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar, menu)
-        //second parameters sets the id
-        menu?.add(0,0,0,menuItemName1) //id 0
-        menu?.add(0,1,0,menuItemName2) //id 1
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            0 -> {
+            R.id.help_option -> {
                 val intent = Intent(this, HelpActivity::class.java)
                 startActivity(intent)
                 true
             }
-            1 -> {
+            R.id.settings_option -> {
                 val intent = Intent(this, SettingsActivity::class.java)
                 startActivity(intent)
                 true

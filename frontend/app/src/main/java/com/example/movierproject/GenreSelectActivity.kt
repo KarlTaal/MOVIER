@@ -19,7 +19,6 @@ class GenreSelectActivity : AppCompatActivity(), AdapterView.OnItemClickListener
     lateinit var listView: ListView
     var lastTheme = -10000 //inital value, -10000 means unset
     lateinit var arrayAdapter: ArrayAdapter<Genre>
-    private var genreQueryLanguage: String = "en-US"
     private lateinit var roomId: String
     lateinit var preferences: SharedPreferences
 
@@ -32,8 +31,7 @@ class GenreSelectActivity : AppCompatActivity(), AdapterView.OnItemClickListener
         setContentView(R.layout.activity_genre_select)
 
         roomId = intent.getStringExtra("roomId").toString()
-
-        updateLanguage()
+        roomCode.text = getString(R.string.room_code, roomId)
 
         listView = findViewById(R.id.genre_select)
 
@@ -43,38 +41,9 @@ class GenreSelectActivity : AppCompatActivity(), AdapterView.OnItemClickListener
         setupButtons()
     }
 
-    fun updateLanguage() {
-        //genre selections
-        val prefLang = preferences.getString(getString(R.string.preferences_language_key), getString(R.string.preferences_language_english_value))
-        if (prefLang == getString(R.string.preferences_language_english_value))
-            genreQueryLanguage = "en-US"
-        if (prefLang == getString(R.string.preferences_language_russian_value))
-            genreQueryLanguage = "ru"
-        if (prefLang == getString(R.string.preferences_language_finnish_value))
-            genreQueryLanguage = "fi"
-
-        //labels
-        if (prefLang == getString(R.string.preferences_language_english_value)) {
-            roomCode.text = getString(R.string.english_room_code, roomId)
-            my_genres.text = getString(R.string.english_submit_genres)
-            start_swiping.text = getString(R.string.english_everyone_ready)
-        }
-        if (prefLang == getString(R.string.preferences_language_russian_value)) {
-            roomCode.text = getString(R.string.russian_room_code, roomId)
-            my_genres.text = getString(R.string.russian_submit_genres)
-            start_swiping.text = getString(R.string.russian_everyone_ready)
-        }
-        if (prefLang == getString(R.string.preferences_language_finnish_value)) {
-            roomCode.text = getString(R.string.finnish_room_code, roomId)
-            my_genres.text = getString(R.string.finnish_submit_genres)
-            start_swiping.text = getString(R.string.finnish_everyone_ready)
-        }
-
-    }
 
     override fun onResume() {
         super.onResume()
-        updateLanguage()
         updateTheme()
     }
 
@@ -110,9 +79,12 @@ class GenreSelectActivity : AppCompatActivity(), AdapterView.OnItemClickListener
         Ion.with(this)
             .load("GET", "https://api.themoviedb.org/3/genre/movie/list?")
             .addQuery("api_key", resources.getString(R.string.api_key))
-            .addQuery("language", genreQueryLanguage)
+            .addQuery("language", getString(R.string.languageQueryKey))
             .asJsonObject()
             .setCallback { e, result ->
+                println("Vastus")
+                println(e)
+                println(result)
                 val genres = result["genres"].asJsonArray
                 genres.forEach { genre ->
                     val id = genre.asJsonObject["id"].toString().toInt()

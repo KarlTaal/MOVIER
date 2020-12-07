@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="languageQueryKey">en-US</string> <!-- moviedp does not have content in estonian so we ask content in english instead -->
+    <string name="poster_content_description">See on filmi plakat</string>
+    <string name="its_a_match">Leidsid sobiva!</string>
+    <string name="back_to_start_menu">Tagasi peamenüüsse</string>
+    <string name="yep">Meeldib</string>
+    <string name="nope">Ei meeldi</string>
+    <string name="start_new_session">ALUSTA UUT SESSIOONI</string>
+    <string name="join_session">LIITU SESSIOONIGA</string>
+    <string name="session_key">Sessiooni võti</string>
+    <string name="movier">MOVIER</string>
+    <string name="help">Abi</string>
+    <string name="settings">Seaded</string>
+    <string name="dark_mode">Tume teema</string>
+    <string name="switch_to_dark_mode_if_you_want">Vaheta tumeda teema peale</string>
+    <string name="everyone_ready">Kõik on valmis</string>
+    <string name="submit_genres">Salvesta zanrid</string>
+    <string name="dev_info">Selle rakenduse tegid Artjom ja Karl</string>
+    <string name="room_code">Ruumi kood: %1$s</string>
+</resources>

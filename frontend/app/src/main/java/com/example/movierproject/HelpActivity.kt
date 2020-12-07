@@ -19,24 +19,8 @@ class HelpActivity : AppCompatActivity() {
         preferences = getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE)
         updateTheme() //has to be called between onCreate and setContent
         setContentView(R.layout.help)
-        updateLanguage()
     }
 
-    fun updateLanguage() {
-        val prefLang = preferences.getString(getString(R.string.preferences_language_key), getString(R.string.preferences_language_english_value))
-
-        //labels
-        if (prefLang == getString(R.string.preferences_language_english_value)) {
-            dev_info.text = getString(R.string.english_dev_info)
-        }
-        if (prefLang == getString(R.string.preferences_language_russian_value)) {
-            dev_info.text = getString(R.string.russian_dev_info)
-        }
-        if (prefLang == getString(R.string.preferences_language_finnish_value)) {
-            dev_info.text = getString(R.string.finnish_dev_info)
-        }
-
-    }
 
     fun updateTheme() {
         val prefTheme = preferences.getString(getString(R.string.preferences_theme_key), getString(R.string.preferences_theme_light_value))
@@ -65,7 +49,6 @@ class HelpActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        updateLanguage()
         updateTheme()
     }
 
