@@ -133,7 +133,7 @@ class GenreSelectActivity : AppCompatActivity(), AdapterView.OnItemClickListener
             for (i in 0 until checked.size()) {
                 if (checked.valueAt(i)) {
                     selectedIds += (if (selectedIds.isEmpty()) "" else "&") + "genre[]=" + arrayAdapter.getItem(
-                        i
+                        checked.keyAt(i)
                     )?.id
                 }
             }
@@ -156,7 +156,6 @@ class GenreSelectActivity : AppCompatActivity(), AdapterView.OnItemClickListener
                 .load("POST", URI)
                 .asJsonObject()
                 .setCallback { e, result ->
-                    println(result.asJsonObject["info"])
                     if (result.asJsonObject["info"].toString() == "\"OK\""){
                         // TODO show notification of successful save
                     } else{
