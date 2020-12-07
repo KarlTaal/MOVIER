@@ -30,7 +30,7 @@ async function getGenresInRoom(roomId, admin) {
   const db = admin.firestore();
   const room = db.collection('rooms').doc(roomId);
   const selectedRoom = await room.get();
-  return selectedRoom.exists ? selectedRoom.data().genres : null;
+  return selectedRoom.exists ? selectedRoom.data().genres.toString() : null;
 }
 
 async function createRoom(admin) {
@@ -111,7 +111,7 @@ const appRouter = (app, fs, admin) => {
     })
   });
 
-  app.get("/genres/:roomId", (req, res) => {
+  app.get("/:roomId/genres", (req, res) => {
     const roomId = req.params["roomId"];
     const genresInRoom = getGenresInRoom(roomId, admin);
     genresInRoom.then(genres => {

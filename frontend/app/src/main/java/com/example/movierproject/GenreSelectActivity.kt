@@ -113,6 +113,7 @@ class GenreSelectActivity : AppCompatActivity(), AdapterView.OnItemClickListener
         }
         start_swiping.setOnClickListener {
             val intent = Intent(this, MovieSelectingActivity::class.java)
+            intent.putExtra("roomId", roomId)
             startActivity(intent)
         }
     }

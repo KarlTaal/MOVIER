@@ -7,9 +7,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import com.koushikdutta.ion.Ion
-import kotlinx.android.synthetic.main.activity_genre_select.*
 import kotlinx.android.synthetic.main.movie_details.*
 import kotlinx.android.synthetic.main.movie_selecting.*
 
@@ -21,6 +19,8 @@ class MovieSelectingActivity : AppCompatActivity() {
 
     var lastTheme = -10000 //inital value, -10000 means unset
     lateinit var preferences: SharedPreferences
+    private lateinit var roomId: String
+    private lateinit var genres: String
 
 
     val moviesList: MutableList<HashMap<String, String>> = mutableListOf()
@@ -30,9 +30,11 @@ class MovieSelectingActivity : AppCompatActivity() {
         preferences = getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE)
         updateTheme() //has to be called between onCreate and setContent
 
+        roomId = intent.getStringExtra("roomId").toString()
+
         setContentView(R.layout.movie_selecting)
 
-        getMovies()
+        getGenres()
         movie_overview.movementMethod = ScrollingMovementMethod()
 
     }
@@ -72,21 +74,38 @@ class MovieSelectingActivity : AppCompatActivity() {
         Ion.with(this)
             .load("GET", "https://api.themoviedb.org/3/discover/movie?")
             .addQuery("api_key", resources.getString(R.string.api_key))
-            .addQuery("with_genres", "28")
+            .addQuery("with_genres", genres)
             .addQuery("language", getString(R.string.languageQueryKey))
             .asJsonObject()
             .setCallback { e, result ->
                 val movies = result["results"].asJsonArray
-                for (i in 1..3) {
+                for (i in 0 until movies.size()) {
                     moviesList.add(hashMapOf(
+                        "id" to movies[i].asJsonObject["id"].toString(),
                         "title" to movies[i].asJsonObject["title"].toString(),
                         "vote_average" to movies[i].asJsonObject["vote_average"].toString(),
                         "overview" to movies[i].asJsonObject["overview"].toString()
                     ))
                 }
                 displayMovie()
-                like_button.setOnClickListener { run{handleLikeClick()} }
+                like_button.setOnClickListener {
+                    run {
+                        likeClick()
+                    }
+                }
                 dislike_button.setOnClickListener { run{handleLikeClick()} }
+            }
+    }
+
+    fun getGenres() {
+        val address = getString(R.string.address)
+        val URI = getString(R.string.uri, address) + "/$roomId/genres"
+        Ion.with(this)
+            .load("GET", URI)
+            .asJsonObject()
+            .setCallback { e, result ->
+                genres = result["genres"].asString
+                getMovies()
             }
     }
 
@@ -94,7 +113,6 @@ class MovieSelectingActivity : AppCompatActivity() {
         val title = moviesList[currentMovieIndex]["title"].toString()
         val overview = moviesList[currentMovieIndex]["overview"].toString()
         val rating = ((moviesList[currentMovieIndex]["vote_average"]?.toDouble() ?: 0.1) * 10).toInt() //max value is set to 100 in progress bar, so we convert it to the same scale
-        Log.i(TAG, rating.toString())
         movie_title.text = title.substring(1, title.length-1)
         movie_rate.max = 100
         movie_rate.isClickable = false
@@ -108,6 +126,22 @@ class MovieSelectingActivity : AppCompatActivity() {
             displayMovie()
         else
             handleMatch()
+    }
+
+    fun likeClick() {
+        val address = getString(R.string.address)
+        val URI = getString(R.string.uri, address) + "/$roomId/like/${moviesList[currentMovieIndex]["id"]}"
+        Ion.with(this)
+            .load("POST", URI)
+            .asJsonObject()
+            .setCallback { e, result ->
+                if (result["match"].asBoolean) {
+                    handleMatch()
+                } else {
+                    currentMovieIndex += 1
+                    displayMovie()
+                }
+            }
     }
 
     fun handleMatch(){
