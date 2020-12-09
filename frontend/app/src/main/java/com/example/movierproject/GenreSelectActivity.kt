@@ -82,9 +82,6 @@ class GenreSelectActivity : AppCompatActivity(), AdapterView.OnItemClickListener
             .addQuery("language", getString(R.string.languageQueryKey))
             .asJsonObject()
             .setCallback { e, result ->
-                println("Vastus")
-                println(e)
-                println(result)
                 val genres = result["genres"].asJsonArray
                 genres.forEach { genre ->
                     val id = genre.asJsonObject["id"].toString().toInt()

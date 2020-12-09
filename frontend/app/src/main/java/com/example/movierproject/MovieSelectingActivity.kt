@@ -1,12 +1,12 @@
 package com.example.movierproject
 
 
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.movierproject.MessagingService.Companion.INTENT_ACTION_SEND_MESSAGE
 import com.koushikdutta.ion.Ion
 import kotlinx.android.synthetic.main.movie_details.*
 import kotlinx.android.synthetic.main.movie_selecting.*
@@ -21,6 +21,7 @@ class MovieSelectingActivity : AppCompatActivity() {
     lateinit var preferences: SharedPreferences
     private lateinit var roomId: String
     private lateinit var genres: String
+    private lateinit var receiver: BroadcastReceiver
 
 
     val moviesList: MutableList<HashMap<String, String>> = mutableListOf()
@@ -36,6 +37,13 @@ class MovieSelectingActivity : AppCompatActivity() {
 
         getGenres()
         movie_overview.movementMethod = ScrollingMovementMethod()
+
+        receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent) {
+                val movieId = intent.getStringExtra("movieId")
+                handleMatch(movieId!!)
+            }
+        }
 
     }
 
@@ -68,6 +76,13 @@ class MovieSelectingActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         updateTheme()
+        val filter = IntentFilter(INTENT_ACTION_SEND_MESSAGE)
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
     }
 
     fun getMovies() {
@@ -93,7 +108,11 @@ class MovieSelectingActivity : AppCompatActivity() {
                         likeClick()
                     }
                 }
-                dislike_button.setOnClickListener { run{handleLikeClick()} }
+                dislike_button.setOnClickListener {
+                    run {
+                        dislikeClick()
+                    }
+                }
             }
     }
 
@@ -120,12 +139,9 @@ class MovieSelectingActivity : AppCompatActivity() {
         movie_overview.text = overview.substring(1, overview.length-1)
     }
 
-    fun handleLikeClick(){
+    fun dislikeClick(){
         currentMovieIndex += 1
-        if (currentMovieIndex < moviesList.size)
-            displayMovie()
-        else
-            handleMatch()
+        displayMovie()
     }
 
     fun likeClick() {
@@ -135,20 +151,22 @@ class MovieSelectingActivity : AppCompatActivity() {
             .load("POST", URI)
             .asJsonObject()
             .setCallback { e, result ->
-                if (result["match"].asBoolean) {
-                    handleMatch()
-                } else {
+                if (!result["match"].asBoolean) {
                     currentMovieIndex += 1
                     displayMovie()
                 }
             }
     }
 
-    fun handleMatch(){
+    fun handleMatch(movieId: String){
         val intent = Intent(this, MatchActivity::class.java)
-        intent.putExtra("title"," Dummy Name ")
-        intent.putExtra("rating",55) //55 means 5.5/10 in means of rating
-        intent.putExtra("overview"," There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. ")
+        val film = moviesList.find {
+            it["id"] == movieId
+        }
+
+        intent.putExtra("title", film?.get("title"))
+        intent.putExtra("rating",((film?.get("vote_average")?.toDouble() ?: 0.1)* 10).toInt()) //55 means 5.5/10 in means of rating
+        intent.putExtra("overview", film?.get("overview"))
         startActivity(intent)
     }
 

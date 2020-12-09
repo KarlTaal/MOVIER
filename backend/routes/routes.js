@@ -1,5 +1,3 @@
-const axios = require('axios');
-
 function generateId() {
   let result = '';
   const characters = '0123456789';
@@ -33,7 +31,7 @@ async function getGenresInRoom(roomId, admin) {
   return selectedRoom.exists ? selectedRoom.data().genres.toString() : null;
 }
 
-async function createRoom(admin) {
+async function createRoom(admin, token) {
   const db = admin.firestore();
   let roomId = generateId();
   let room = db.collection('rooms').doc(roomId);
@@ -46,23 +44,32 @@ async function createRoom(admin) {
   await room.set({
       'userCount': 1,
       'genres': null,
-      'likes': {}
+      'likes': {},
+      'tokens': [token]
     }
   );
   return roomId;
 }
 
-async function joinRoom(admin, roomId) {
+async function joinRoom(admin, roomId, token) {
   const db = admin.firestore();
   let room = db.collection('rooms').doc(roomId);
   let joinRoom = await room.get();
   if (joinRoom.exists) {
     await room.update({
-      userCount: admin.firestore.FieldValue.increment(1)
+      userCount: admin.firestore.FieldValue.increment(1),
+      tokens: admin.firestore.FieldValue.arrayUnion(token)
     });
     return 200;
   }
   return 400;
+}
+
+async function getTokens(admin, roomId) {
+  const db = admin.firestore();
+  const room = db.collection('rooms').doc(roomId);
+  const selectedRoom = await room.get();
+  return selectedRoom.exists ? selectedRoom.data().tokens : null;
 }
 
 async function likeMovie(admin, roomId, movieId) {
@@ -84,14 +91,16 @@ async function likeMovie(admin, roomId, movieId) {
 const appRouter = (app, fs, admin) => {
 
   app.post("/create", (req, res) => {
-    createRoom(admin).then(r => {
+    const token = req.headers['token'];
+    createRoom(admin, token).then(r => {
       res.status(200).json({room :r})
     })
   });
 
   app.post("/join/:roomId", (req, res) => {
     const roomId = req.params["roomId"];
-    joinRoom(admin, roomId).then(r => {
+    const token = req.headers["token"];
+    joinRoom(admin, roomId, token).then(r => {
       if(r === 200)
         res.status(200).send({info: 'OK'})
       else
@@ -99,7 +108,6 @@ const appRouter = (app, fs, admin) => {
     })
   });
 
-  //http://localhost:3000/genres?genre[]=1&genre[]=2
   app.post("/:roomId/genres", (req, res) => {
     const list = req.query.genre.map(i => parseInt(i));
     const roomId = req.params["roomId"];
@@ -124,6 +132,15 @@ const appRouter = (app, fs, admin) => {
     const roomId = req.params["roomId"];
     const movieId = req.params["movieId"];
     likeMovie(admin, roomId, movieId).then(r => {
+      if (r) {
+        getTokens(admin, roomId).then(r => {
+          const message = {
+            data: {movieId: movieId},
+            tokens: r
+          };
+          admin.messaging().sendMulticast(message).then(() => console.log("Match was sent"))
+        })
+      }
       res.status(200).send({match: r});
     });
   });

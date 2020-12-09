@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "977539805922",
+    "firebase_url": "https://movier-bbc1b.firebaseio.com",
+    "project_id": "movier-bbc1b",
+    "storage_bucket": "movier-bbc1b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977539805922:android:da323b34abe2d147b2a4bb",
+        "android_client_info": {
+          "package_name": "com.example.movierproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977539805922-8mqkbbaq5f2k1c8vjprvqb3baipomgva.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmB9cTG5kYX0r0IpyjK_PwvVNqVj6D4dk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "977539805922-8mqkbbaq5f2k1c8vjprvqb3baipomgva.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

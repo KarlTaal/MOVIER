@@ -124,6 +124,7 @@ class StartMenuActivity : AppCompatActivity() {
             val URI = getString(R.string.uri, address) + "/join/$key"
             Ion.with(this)
                 .load("POST", URI)
+                .addHeader("token", preferences.getString("token", ""))
                 .asJsonObject()
                 .withResponse()
             switchToMovieSelectingActivity(key)
@@ -141,6 +142,7 @@ class StartMenuActivity : AppCompatActivity() {
         val URI = getString(R.string.uri, address) + "/create"
         Ion.with(this)
             .load("POST", URI)
+            .addHeader("token", preferences.getString("token", ""))
             .asJsonObject()
             .setCallback { e, result ->
                 val roomId = result.asJsonObject["room"].asString

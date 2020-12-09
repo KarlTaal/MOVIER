@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeLight">
-        <activity android:name=".GenreSelectActivity"></activity>
+        <activity android:name=".GenreSelectActivity" />
         <activity android:name=".MovieSelectingActivity" />
         <activity android:name=".MatchActivity" />
         <activity android:name=".HelpActivity" />
@@ -21,6 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".MessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
