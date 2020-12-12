@@ -185,11 +185,9 @@ class MovieSelectingActivity : AppCompatActivity() {
     fun dislikeClick(){
         model.currentMovieIndex += 1
         displayMovie()
-        println(model.currentMovieIndex)
     }
 
     fun likeClick() {
-        println(model.currentMovieIndex)
         val address = getString(R.string.address)
         if (model.currentMovieIndex < moviesList.size){
             val URI = getString(R.string.uri, address) + "/$roomId/like/${moviesList[model.currentMovieIndex]["id"]}"

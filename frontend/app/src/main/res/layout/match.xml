@@ -9,6 +9,7 @@
         android:id="@+id/match_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
         android:text="@string/its_a_match"
         android:textSize="@dimen/secondary_title_size"
         android:textStyle="bold|italic"

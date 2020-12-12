@@ -13,6 +13,7 @@
         android:text="@string/its_a_match"
         android:textSize="@dimen/secondary_title_size"
         android:textStyle="bold|italic"
+        android:fontFamily="@font/poppins_medium"
         app:layout_constraintBottom_toTopOf="@+id/guideline16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

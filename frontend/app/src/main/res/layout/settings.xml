@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/dark_mode"
                 android:textSize="@dimen/text_size"
+                android:fontFamily="@font/poppins_medium"
                 app:layout_constraintEnd_toStartOf="@+id/guideline9"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="MissingConstraints" />
@@ -46,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:textSize="@dimen/text_size"
+                android:fontFamily="@font/poppins_medium"
                 android:text="@string/switch_to_dark_mode_if_you_want"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline9"
