@@ -185,20 +185,26 @@ class MovieSelectingActivity : AppCompatActivity() {
     fun dislikeClick(){
         model.currentMovieIndex += 1
         displayMovie()
+        println(model.currentMovieIndex)
     }
 
     fun likeClick() {
+        println(model.currentMovieIndex)
         val address = getString(R.string.address)
-        val URI = getString(R.string.uri, address) + "/$roomId/like/${moviesList[model.currentMovieIndex]["id"]}"
-        model.currentMovieIndex += 1
-        Ion.with(this)
-            .load("POST", URI)
-            .asJsonObject()
-            .setCallback { e, result ->
-                if (!result["match"].asBoolean) {
-                    displayMovie()
+        if (model.currentMovieIndex < moviesList.size){
+            val URI = getString(R.string.uri, address) + "/$roomId/like/${moviesList[model.currentMovieIndex]["id"]}"
+            model.currentMovieIndex += 1
+            Ion.with(this)
+                .load("POST", URI)
+                .asJsonObject()
+                .setCallback { e, result ->
+                    if (!result["match"].asBoolean) {
+                        displayMovie()
+                    }
                 }
-            }
+        }else{
+            displayMovie()
+        }
     }
 
     fun handleMatch(movieId: String){
