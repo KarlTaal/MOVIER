@@ -9,7 +9,7 @@
     <string name="start_new_session">ALOITA UUSI ISTUNTO</string>
     <string name="join_session">LIITY ISTUNTOON</string>
     <string name="session_key">Istunnon avain</string>
-    <string name="movier">MOVIER</string> <!-- TODO proper name here-->
+    <string name="movier">MOVIER</string>
     <string name="help">Auta</string>
     <string name="settings">Asetukset</string>
     <string name="dark_mode">Tumma tila</string>
@@ -18,4 +18,5 @@
     <string name="submit_genres">Valitse Tyylit</string>
     <string name="dev_info">Tämän sovelluksen ovat kehittäneet Artjom ja Karl</string>
     <string name="room_code">Huonekoodi: %1$s</string>
+    <string name="no_more_movies_info">Valitettavasti elokuvat loppuvat.\nVoit palata päävalikkoon tai odottaa ottelua.</string>
 </resources>

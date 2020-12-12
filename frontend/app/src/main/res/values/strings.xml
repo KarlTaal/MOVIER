@@ -5,7 +5,7 @@
     <!-- REST API endpoints -->
     <string name="address" translatable="false"></string> <!-- your ip4 -->
     <string name="uri" translatable="false">http://%1$s:3000</string>
-
+    <string name="poster_request_path" translatable="false">https://image.tmdb.org/t/p/w500%1$s</string>
 
     <!-- Preferences -->
     <string name="preferences_file" translatable="false">preferences</string>
@@ -33,5 +33,6 @@
     <string name="submit_genres">Select Genres</string>
     <string name="dev_info">This app was developed by Artjom and Karl</string>
     <string name="room_code">Room code: %1$s</string>
+    <string name="no_more_movies_info">Unfortunately you run out of movies.\nYou can return to main menu or wait for match.</string>
 
 </resources>

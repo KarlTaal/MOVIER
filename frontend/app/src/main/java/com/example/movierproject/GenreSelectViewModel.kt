@@ -21,7 +21,6 @@ class GenreSelectViewModel(application: Application) : AndroidViewModel(applicat
 
     init {
         Log.d(TAG, "ViewModel initialized")
-        println("tere")
         Ion.with(application.baseContext)
             .load("GET", "https://api.themoviedb.org/3/genre/movie/list?")
             .addQuery("api_key", application.resources.getString(R.string.api_key))

@@ -9,7 +9,7 @@
     <string name="start_new_session">НАЧАТЬ НОВЫЙ СЕАНС</string>
     <string name="join_session">ПРИСОЕДИНИТЬСЯ К СЕАНСУ</string>
     <string name="session_key">Ключ сеанса</string>
-    <string name="movier">MOVIER</string> <!-- TODO proper name here-->
+    <string name="movier">MOVIER</string>
     <string name="help">Помощь</string>
     <string name="settings">Настройки</string>
     <string name="dark_mode">Темный режим</string>
@@ -18,4 +18,5 @@
     <string name="submit_genres">Выбрать жанры</string>
     <string name="dev_info">Это приложение было разработано Artjom и Karl</string>
     <string name="room_code">Код номера: %1$s</string>
+    <string name="no_more_movies_info">К сожалению, у вас заканчиваются фильмы.\nВы можете вернуться в главное меню или дождаться матча.</string>
 </resources>

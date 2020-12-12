@@ -19,7 +19,6 @@ class MessagingService: FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         val movieId = remoteMessage.data["movieId"]
-        println("MOVIEID: $movieId")
         passMessageToActivity(movieId)
     }
 

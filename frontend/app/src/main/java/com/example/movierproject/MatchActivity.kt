@@ -27,7 +27,8 @@ class MatchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preferences = getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE)
+        preferences =
+            getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE)
 
         updateTheme() //has to be called between onCreate and setContent
         setContentView(R.layout.match)
@@ -38,7 +39,10 @@ class MatchActivity : AppCompatActivity() {
     }
 
     fun updateTheme() {
-        val prefTheme = preferences.getString(getString(R.string.preferences_theme_key), getString(R.string.preferences_theme_light_value))
+        val prefTheme = preferences.getString(
+            getString(R.string.preferences_theme_key),
+            getString(R.string.preferences_theme_light_value)
+        )
         if (lastTheme == -10000) { //when update is called from onCreate
             if (prefTheme == getString(R.string.preferences_theme_light_value)) {
                 setTheme(R.style.AppThemeLight)
@@ -68,34 +72,40 @@ class MatchActivity : AppCompatActivity() {
     }
 
 
-    fun setupFragmentContent(){
+    fun setupFragmentContent() {
         val title = intent.getStringExtra("title") as String
         val overview = intent.getStringExtra("overview") as String
         val rating = intent.getIntExtra("rating", 0)
         val posterPath = intent.getStringExtra("posterPath") as String
 
-        movie_title.text = title.substring(1, title.length-1)
+        movie_title.text = title.substring(1, title.length - 1)
         movie_rate.max = 100
         movie_rate.isClickable = false
         movie_rate.progress = rating
-        movie_overview.text = overview.substring(1, overview.length-1)
+        movie_overview.text = overview.substring(1, overview.length - 1)
         getAndSetMoviePoster(posterPath)
     }
 
-    fun getAndSetMoviePoster(posterPath: String){
-        val scope = CoroutineScope( Dispatchers.Default)
+    fun getAndSetMoviePoster(posterPath: String) {
+        val scope = CoroutineScope(Dispatchers.Default)
         scope.launch {
-            val url = URL("https://image.tmdb.org/t/p/w500${posterPath.substring(1, posterPath.length-1)}")
+            val url = URL(
+                getString(
+                    R.string.poster_request_path,
+                    posterPath.substring(1, posterPath.length - 1)
+                )
+            )
             val fullBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
             val ratio = fullBitmap.width.toDouble() / fullBitmap.height
-            val scaledBitmap = Bitmap.createScaledBitmap(fullBitmap, (200*ratio).toInt(), 200, false)
+            val scaledBitmap =
+                Bitmap.createScaledBitmap(fullBitmap, (200 * ratio).toInt(), 200, false)
             runOnUiThread {
                 movie_poster.setImageBitmap(scaledBitmap)
             }
         }
     }
 
-    fun setupBackToMenuClickHandler(){
+    fun setupBackToMenuClickHandler() {
         back_to_start_menu_btn.setOnClickListener {
             run {
                 val intent = Intent(this, StartMenuActivity::class.java)

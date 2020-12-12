@@ -55,11 +55,8 @@ class GenreSelectActivity : AppCompatActivity(), AdapterView.OnItemClickListener
 
         listView = findViewById(R.id.genre_select)
 
-
-        println("MIDA")
         listView.adapter = model.arrayAdapter
 
-        //setupGenreSelector()
         listView.choiceMode = ListView.CHOICE_MODE_MULTIPLE
         listView.onItemClickListener = this
         setupButtons()
@@ -124,15 +121,19 @@ class GenreSelectActivity : AppCompatActivity(), AdapterView.OnItemClickListener
             startActivity(intent)
         }
 
-        updateProceedButtonState()
+        updateButtonsState()
     }
 
-    private fun updateProceedButtonState(){
+    private fun updateButtonsState(){
         start_swiping.isEnabled = model.proceedButtonIsEnabled
-        if (model.proceedButtonIsEnabled)
+        if (model.proceedButtonIsEnabled){
             start_swiping.alpha = 1f
-        else
+            my_genres.alpha = 0.3f
+        }
+        else{
             start_swiping.alpha = 0.3f
+            my_genres.alpha = 1f
+        }
     }
 
 
@@ -146,7 +147,7 @@ class GenreSelectActivity : AppCompatActivity(), AdapterView.OnItemClickListener
                 .setCallback { e, result ->
                     if (result.asJsonObject["info"].toString() == "true") {
                         model.proceedButtonIsEnabled = true
-                        updateProceedButtonState()
+                        updateButtonsState()
                     }
                 }
         }

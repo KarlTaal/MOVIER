@@ -18,4 +18,5 @@
     <string name="submit_genres">Salvesta zanrid</string>
     <string name="dev_info">Selle rakenduse tegid Artjom ja Karl</string>
     <string name="room_code">Ruumi kood: %1$s</string>
+    <string name="no_more_movies_info">Kahjuks said filmid otsa.\nVõid oodata sobiva filmi vastet või naasta peamenüüsse.</string>
 </resources>

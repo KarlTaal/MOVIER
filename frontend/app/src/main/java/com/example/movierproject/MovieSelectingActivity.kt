@@ -2,6 +2,7 @@ package com.example.movierproject
 
 
 import android.content.*
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
@@ -11,8 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.movierproject.MessagingService.Companion.INTENT_ACTION_SEND_MESSAGE
 import com.koushikdutta.ion.Ion
+import kotlinx.android.synthetic.main.match.*
 import kotlinx.android.synthetic.main.movie_details.*
 import kotlinx.android.synthetic.main.movie_selecting.*
+import kotlinx.android.synthetic.main.no_more_movies.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,7 +47,6 @@ class MovieSelectingActivity : AppCompatActivity() {
         setContentView(R.layout.movie_selecting)
 
         getGenres()
-        movie_overview.movementMethod = ScrollingMovementMethod()
 
         receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent) {
@@ -103,7 +105,6 @@ class MovieSelectingActivity : AppCompatActivity() {
             .setCallback { e, result ->
                 val movies = result["results"].asJsonArray
                 for (i in 0 until movies.size()) {
-                    println(movies[i].toString())
                     moviesList.add(hashMapOf(
                         "id" to movies[i].asJsonObject["id"].toString(),
                         "title" to movies[i].asJsonObject["title"].toString(),
@@ -139,21 +140,39 @@ class MovieSelectingActivity : AppCompatActivity() {
     }
 
     fun displayMovie(){
-        val title = moviesList[model.currentMovieIndex]["title"].toString()
-        val overview = moviesList[model.currentMovieIndex]["overview"].toString()
-        val rating = ((moviesList[model.currentMovieIndex]["vote_average"]?.toDouble() ?: 0.1) * 10).toInt() //max value is set to 100 in progress bar, so we convert it to the same scale
-        movie_title.text = title.substring(1, title.length-1)
-        movie_rate.max = 100
-        movie_rate.isClickable = false
-        movie_rate.progress = rating
-        movie_overview.text = overview.substring(1, overview.length-1)
-        getAndSetMoviePoster(moviesList[model.currentMovieIndex]["posterPath"].toString())
+        if (model.currentMovieIndex < moviesList.size){
+            val title = moviesList[model.currentMovieIndex]["title"].toString()
+            val overview = moviesList[model.currentMovieIndex]["overview"].toString()
+            val rating = ((moviesList[model.currentMovieIndex]["vote_average"]?.toDouble() ?: 0.1) * 10).toInt() //max value is set to 100 in progress bar, so we convert it to the same scale
+            movie_title.text = title.substring(1, title.length-1)
+            movie_rate.max = 100
+            movie_rate.isClickable = false
+            movie_rate.progress = rating
+            movie_overview.text = overview.substring(1, overview.length-1)
+            getAndSetMoviePoster(moviesList[model.currentMovieIndex]["posterPath"].toString())
+        } else{
+            showOutOfMoviesFragment()
+            dislike_button.isEnabled = false
+            like_button.isEnabled = false
+            dislike_button.alpha = 0.3f
+            like_button.alpha = 0.3f
+        }
+    }
+
+    fun showOutOfMoviesFragment(){
+        val outOfMovies = OutOfMoviesFragment()
+        val toReplace = R.id.fragment_container
+        val fragmentManager = supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        transaction
+            .replace(toReplace, outOfMovies)
+            .commit()
     }
 
     fun getAndSetMoviePoster(posterPath: String){
         val scope = CoroutineScope( Dispatchers.Default)
         scope.launch {
-            val url = URL("https://image.tmdb.org/t/p/w500${posterPath.substring(1, posterPath.length-1)}")
+            val url = URL(getString(R.string.poster_request_path, posterPath.substring(1, posterPath.length-1)))
             val fullBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
             val ratio = fullBitmap.width.toDouble() / fullBitmap.height
             val scaledBitmap = Bitmap.createScaledBitmap(fullBitmap, (200*ratio).toInt(), 200, false)
