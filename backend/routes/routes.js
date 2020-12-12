@@ -18,9 +18,9 @@ const appRouter = (app, fs, admin) => {
     const token = req.headers["token"];
     service.joinRoom(admin, roomId, token).then(r => {
       if(r === 200)
-        res.status(200).send({info: 'OK'})
+        res.status(200).send({info: true})
       else
-        res.status(400).send({info: 'Room does not exist'})
+        res.status(400).send({info: false})
     })
   });
 
