@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.koushikdutta.ion.Ion
 import kotlinx.android.synthetic.main.start_menu.*
 
-// TODO implement some logical behaviour for the backstack. For example, when clicking back to menu from match activity the backstack should be empty after that.
 class StartMenuActivity : AppCompatActivity() {
     companion object {
         var TAG = StartMenuActivity::class.java.name

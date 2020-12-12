@@ -109,6 +109,8 @@ class MatchActivity : AppCompatActivity() {
         back_to_start_menu_btn.setOnClickListener {
             run {
                 val intent = Intent(this, StartMenuActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP )
+                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
         }
