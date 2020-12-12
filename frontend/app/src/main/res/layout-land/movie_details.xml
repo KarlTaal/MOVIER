@@ -44,15 +44,14 @@
             app:layout_constraintTop_toBottomOf="@+id/movie_overview" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/movie_poster"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/poster_content_description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline14"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:mipmap/sym_def_app_icon" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/movie_overview"

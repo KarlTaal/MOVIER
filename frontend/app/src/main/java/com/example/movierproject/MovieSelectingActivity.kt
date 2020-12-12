@@ -2,21 +2,29 @@ package com.example.movierproject
 
 
 import android.content.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.movierproject.MessagingService.Companion.INTENT_ACTION_SEND_MESSAGE
 import com.koushikdutta.ion.Ion
 import kotlinx.android.synthetic.main.movie_details.*
 import kotlinx.android.synthetic.main.movie_selecting.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.URL
 
 
 class MovieSelectingActivity : AppCompatActivity() {
     companion object {
         var TAG = MovieSelectingActivity::class.java.name
     }
-
+    private lateinit var model: MovieSelectingViewModel
     var lastTheme = -10000 //inital value, -10000 means unset
     lateinit var preferences: SharedPreferences
     private lateinit var roomId: String
@@ -25,11 +33,11 @@ class MovieSelectingActivity : AppCompatActivity() {
 
 
     val moviesList: MutableList<HashMap<String, String>> = mutableListOf()
-    var currentMovieIndex = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         preferences = getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE)
         updateTheme() //has to be called between onCreate and setContent
+        model = ViewModelProvider(this).get(MovieSelectingViewModel::class.java)
 
         roomId = intent.getStringExtra("roomId").toString()
 
@@ -95,11 +103,13 @@ class MovieSelectingActivity : AppCompatActivity() {
             .setCallback { e, result ->
                 val movies = result["results"].asJsonArray
                 for (i in 0 until movies.size()) {
+                    println(movies[i].toString())
                     moviesList.add(hashMapOf(
                         "id" to movies[i].asJsonObject["id"].toString(),
                         "title" to movies[i].asJsonObject["title"].toString(),
                         "vote_average" to movies[i].asJsonObject["vote_average"].toString(),
-                        "overview" to movies[i].asJsonObject["overview"].toString()
+                        "overview" to movies[i].asJsonObject["overview"].toString(),
+                        "posterPath" to movies[i].asJsonObject["poster_path"].toString()
                     ))
                 }
                 displayMovie()
@@ -129,30 +139,44 @@ class MovieSelectingActivity : AppCompatActivity() {
     }
 
     fun displayMovie(){
-        val title = moviesList[currentMovieIndex]["title"].toString()
-        val overview = moviesList[currentMovieIndex]["overview"].toString()
-        val rating = ((moviesList[currentMovieIndex]["vote_average"]?.toDouble() ?: 0.1) * 10).toInt() //max value is set to 100 in progress bar, so we convert it to the same scale
+        val title = moviesList[model.currentMovieIndex]["title"].toString()
+        val overview = moviesList[model.currentMovieIndex]["overview"].toString()
+        val rating = ((moviesList[model.currentMovieIndex]["vote_average"]?.toDouble() ?: 0.1) * 10).toInt() //max value is set to 100 in progress bar, so we convert it to the same scale
         movie_title.text = title.substring(1, title.length-1)
         movie_rate.max = 100
         movie_rate.isClickable = false
         movie_rate.progress = rating
         movie_overview.text = overview.substring(1, overview.length-1)
+        getAndSetMoviePoster(moviesList[model.currentMovieIndex]["posterPath"].toString())
+    }
+
+    fun getAndSetMoviePoster(posterPath: String){
+        val scope = CoroutineScope( Dispatchers.Default)
+        scope.launch {
+            val url = URL("https://image.tmdb.org/t/p/w500${posterPath.substring(1, posterPath.length-1)}")
+            val fullBitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+            val ratio = fullBitmap.width.toDouble() / fullBitmap.height
+            val scaledBitmap = Bitmap.createScaledBitmap(fullBitmap, (200*ratio).toInt(), 200, false)
+            runOnUiThread {
+                movie_poster.setImageBitmap(scaledBitmap)
+            }
+        }
     }
 
     fun dislikeClick(){
-        currentMovieIndex += 1
+        model.currentMovieIndex += 1
         displayMovie()
     }
 
     fun likeClick() {
         val address = getString(R.string.address)
-        val URI = getString(R.string.uri, address) + "/$roomId/like/${moviesList[currentMovieIndex]["id"]}"
+        val URI = getString(R.string.uri, address) + "/$roomId/like/${moviesList[model.currentMovieIndex]["id"]}"
         Ion.with(this)
             .load("POST", URI)
             .asJsonObject()
             .setCallback { e, result ->
                 if (!result["match"].asBoolean) {
-                    currentMovieIndex += 1
+                    model.currentMovieIndex += 1
                     displayMovie()
                 }
             }
@@ -167,6 +191,7 @@ class MovieSelectingActivity : AppCompatActivity() {
         intent.putExtra("title", film?.get("title"))
         intent.putExtra("rating",((film?.get("vote_average")?.toDouble() ?: 0.1)* 10).toInt()) //55 means 5.5/10 in means of rating
         intent.putExtra("overview", film?.get("overview"))
+        intent.putExtra("posterPath", film?.get("posterPath"))
         startActivity(intent)
     }
 

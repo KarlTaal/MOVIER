@@ -126,12 +126,18 @@ class StartMenuActivity : AppCompatActivity() {
                 .load("POST", URI)
                 .addHeader("token", preferences.getString("token", ""))
                 .asJsonObject()
-                .withResponse()
-            switchToMovieSelectingActivity(key)
+                .setCallback{e, result ->
+                    if (result.asJsonObject["info"].toString() == "false"){
+                        val animShake = AnimationUtils.loadAnimation(this, R.anim.shake)
+                        session_key_input.startAnimation(animShake)
+                    }else{
+                        switchToGenreSelectingActivity(key)
+                    }
+                }
         }
     }
 
-    fun switchToMovieSelectingActivity(roomId: String) {
+    fun switchToGenreSelectingActivity(roomId: String) {
         val intent = Intent(this, GenreSelectActivity::class.java)
         intent.putExtra("roomId", roomId)
         startActivity(intent)
@@ -146,7 +152,7 @@ class StartMenuActivity : AppCompatActivity() {
             .asJsonObject()
             .setCallback { e, result ->
                 val roomId = result.asJsonObject["room"].asString
-                switchToMovieSelectingActivity(roomId)
+                switchToGenreSelectingActivity(roomId)
             }
     }
 
