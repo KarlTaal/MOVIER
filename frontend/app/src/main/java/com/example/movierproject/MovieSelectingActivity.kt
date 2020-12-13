@@ -2,24 +2,22 @@ package com.example.movierproject
 
 
 import android.content.*
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.movierproject.MessagingService.Companion.INTENT_ACTION_SEND_MESSAGE
+import com.example.movierproject.entities.Movie
+import com.example.movierproject.fragments.OutOfMoviesFragment
+import com.example.movierproject.models.MovieSelectingViewModel
+import com.example.movierproject.services.MessagingService.Companion.INTENT_ACTION_SEND_MESSAGE
 import com.koushikdutta.ion.Ion
-import kotlinx.android.synthetic.main.match.*
 import kotlinx.android.synthetic.main.movie_details.*
 import kotlinx.android.synthetic.main.movie_selecting.*
-import kotlinx.android.synthetic.main.no_more_movies.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.net.URL
 
 
@@ -35,7 +33,7 @@ class MovieSelectingActivity : AppCompatActivity() {
     private lateinit var receiver: BroadcastReceiver
 
 
-    val moviesList: MutableList<HashMap<String, String>> = mutableListOf()
+    val moviesList: MutableList<Movie> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         preferences = getSharedPreferences(getString(R.string.preferences_file), Context.MODE_PRIVATE)
@@ -105,13 +103,14 @@ class MovieSelectingActivity : AppCompatActivity() {
             .setCallback { e, result ->
                 val movies = result["results"].asJsonArray
                 for (i in 0 until movies.size()) {
-                    moviesList.add(hashMapOf(
-                        "id" to movies[i].asJsonObject["id"].toString(),
-                        "title" to movies[i].asJsonObject["title"].toString(),
-                        "vote_average" to movies[i].asJsonObject["vote_average"].toString(),
-                        "overview" to movies[i].asJsonObject["overview"].toString(),
-                        "posterPath" to movies[i].asJsonObject["poster_path"].toString()
-                    ))
+                    val movie = Movie(
+                        movies[i].asJsonObject["id"].toString(),
+                        movies[i].asJsonObject["title"].toString(),
+                        movies[i].asJsonObject["vote_average"].toString().toDouble(),
+                        movies[i].asJsonObject["overview"].toString(),
+                        movies[i].asJsonObject["poster_path"].toString()
+                    )
+                    moviesList.add(movie)
                 }
                 displayMovie()
                 like_button.setOnClickListener {
@@ -141,15 +140,15 @@ class MovieSelectingActivity : AppCompatActivity() {
 
     fun displayMovie(){
         if (model.currentMovieIndex < moviesList.size){
-            val title = moviesList[model.currentMovieIndex]["title"].toString()
-            val overview = moviesList[model.currentMovieIndex]["overview"].toString()
-            val rating = ((moviesList[model.currentMovieIndex]["vote_average"]?.toDouble() ?: 0.1) * 10).toInt() //max value is set to 100 in progress bar, so we convert it to the same scale
+            val title = moviesList[model.currentMovieIndex].title
+            val overview = moviesList[model.currentMovieIndex].overview
+            val rating = ((moviesList[model.currentMovieIndex].voteAverage ?: 0.1) * 10).toInt() //max value is set to 100 in progress bar, so we convert it to the same scale
             movie_title.text = title.substring(1, title.length-1)
             movie_rate.max = 100
             movie_rate.isClickable = false
             movie_rate.progress = rating
             movie_overview.text = overview.substring(1, overview.length-1)
-            getAndSetMoviePoster(moviesList[model.currentMovieIndex]["posterPath"].toString())
+            getAndSetMoviePoster(moviesList[model.currentMovieIndex].posterPath.toString())
         } else{
             showOutOfMoviesFragment()
             dislike_button.isEnabled = false
@@ -190,7 +189,7 @@ class MovieSelectingActivity : AppCompatActivity() {
     fun likeClick() {
         val address = getString(R.string.address)
         if (model.currentMovieIndex < moviesList.size){
-            val URI = getString(R.string.uri, address) + "/$roomId/like/${moviesList[model.currentMovieIndex]["id"]}"
+            val URI = getString(R.string.uri, address) + "/$roomId/like/${moviesList[model.currentMovieIndex].id}"
             model.currentMovieIndex += 1
             Ion.with(this)
                 .load("POST", URI)
@@ -208,13 +207,13 @@ class MovieSelectingActivity : AppCompatActivity() {
     fun handleMatch(movieId: String){
         val intent = Intent(this, MatchActivity::class.java)
         val film = moviesList.find {
-            it["id"] == movieId
+            it.id == movieId
         }
 
-        intent.putExtra("title", film?.get("title"))
-        intent.putExtra("rating",((film?.get("vote_average")?.toDouble() ?: 0.1)* 10).toInt()) //55 means 5.5/10 in means of rating
-        intent.putExtra("overview", film?.get("overview"))
-        intent.putExtra("posterPath", film?.get("posterPath"))
+        intent.putExtra("title", film?.title)
+        intent.putExtra("rating",((film?.voteAverage ?: 0.1)* 10).toInt()) //55 means 5.5/10 in means of rating
+        intent.putExtra("overview", film?.overview)
+        intent.putExtra("posterPath", film?.posterPath)
         startActivity(intent)
     }
 

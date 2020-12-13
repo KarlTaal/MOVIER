@@ -1,7 +1,8 @@
-package com.example.movierproject
+package com.example.movierproject.services
 
 import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.movierproject.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 

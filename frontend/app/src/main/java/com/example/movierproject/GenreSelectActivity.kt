@@ -2,9 +2,7 @@ package com.example.movierproject
 
 import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -12,7 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.movierproject.entities.Genre
+import com.example.movierproject.models.GenreSelectViewModel
 import com.koushikdutta.ion.Ion
 import kotlinx.android.synthetic.main.activity_genre_select.*
 

@@ -1,4 +1,4 @@
-package com.example.movierproject
+package com.example.movierproject.models
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

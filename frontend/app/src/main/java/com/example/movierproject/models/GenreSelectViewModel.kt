@@ -1,9 +1,10 @@
-package com.example.movierproject
+package com.example.movierproject.models
 
 import android.app.Application
 import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.lifecycle.AndroidViewModel
+import com.example.movierproject.R
 import com.example.movierproject.entities.Genre
 import com.koushikdutta.ion.Ion
 
